@@ -1,0 +1,90 @@
+<div class="col-12">
+    <div class="row">
+        <div class="row">
+            <div class="col-12">
+                <form (ngSubmit)="search()" #searchForm="ngForm">
+                    <div class="row mb-3 align-items-center">
+                        <!-- Dropdown Filter Options -->
+                        <div class="col-auto">
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="filterDropdown"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{selectedFilter}}
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+                                    <li><button class="dropdown-item" type="button"
+                                            (click)="setFilter('name')">Name</button></li>
+                                    <li><button class="dropdown-item" type="button"
+                                            (click)="setFilter('role')">Role</button></li>
+                                    <li><button class="dropdown-item" type="button"
+                                            (click)="setFilter('experience')">Experience</button></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        
+                        <!-- Search Box -->
+                        <div class="col-auto" *ngIf="selectedFilter == 'name' || selectedFilter == 'experience'">
+                            <input [attr.type]="selectedFilter == 'experience' ? 'number' : 'text'" min="1"
+                                class="form-control" name="searchStr" placeholder="Search" [(ngModel)]="searchStr" />
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="dropdown" *ngIf="selectedFilter == 'role'">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="filterDropdown"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{selectedRole}}
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+                                    <li *ngFor="let role of getRoles()">
+                                        <button class="dropdown-item" type="button" (click)="setRoleFilter(role)">
+                                            {{role}}
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-success">Filter</button>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-white border" (click)="clearFilter()">Clear
+                                Filter</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-4" *ngFor="let emp of data">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h6>{{emp.name}}</h6>
+                </div>
+                <div class="card-body">
+                    <div class="p-1">
+                        <label for="">Name : </label>
+                        <span>{{emp.name}}</span>
+                    </div>
+                    <div class="p-1">
+                        <label for="">Role : </label>
+                        <span>{{emp.role}}</span>
+                    </div>
+                    <div class="p-1">
+                        <label for="">Department : </label>
+                        <span>{{emp.department.departmentType}}</span>
+                    </div>
+                    <div class="p-1">
+                        <label for="">Experience: </label>
+                        <span>{{emp.experience}}</span>
+                    </div>
+                    <div class="p-1">
+                        <label for="">Vocation Allowed: </label>
+                        <span>{{emp.allowedVocation ? 'Yes' : 'No'}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
