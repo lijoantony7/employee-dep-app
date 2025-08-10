@@ -29,8 +29,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.IIS_SERVER_HOST }} >> ~/.ssh/known_hosts
-
-      - name: Deploy files to IIS server
-        run: |
-          scp -r ./dist/employee-app/* "${{ secrets.IIS_SERVER_USER }}"@"${{ secrets.IIS_SERVER_HOST }}":"${{ secrets.IIS_SERVER_PATH }}"
+      
+          echo "Adding IIS_SERVER_HOST to known_hosts"
+          echo "Host: ${{ secrets.IIS_SERVER_HOST }}"
+          ssh-keyscan -H ${{ secrets.IIS_SERVER_HOST }} >> ~/.ssh/known_hosts || echo "ssh-keyscan failed"
